@@ -8,22 +8,12 @@ __version__ = u'0.1'
 log = logging.getLogger(u'flask-featureflags')
 
 class StopCheckingFeatureFlags(Exception):
+  """ Raise this inside of a feature flag handler to immediately return False and stop any further handers from running """
   pass
 
-def NullFlagHandler(feature):
-  """ This handler always returns True """
-  return False
-
-def AlwaysOffFlagHandler(feature):
-  """ This handler always returns False """
-  raise StopCheckingFeatureFlags
-
-def AlwaysOnFlagHandler(feature):
-  """ This handler always returns True """
-  return True
 
 def AppConfigFlagHandler(feature=None):
-  """ This checks in the current app configuration for an FEATURE_FLAGS dictionary. Each feature is a key in that dictionary.
+  """ This is the default handler. It checks for feature flags in the current app's configuration.
 
   For example, to have 'unfinished_feature' hidden in production but active in development:
 
@@ -59,7 +49,7 @@ class FeatureFlagExtension(object):
     if app is not None:
       self.init_app(app)
 
-    # Enable
+    # The default out-of-the-box handler looks up features in Flask's app config.
     self.handlers = [AppConfigFlagHandler]
 
   def init_app(self, app):
@@ -72,22 +62,26 @@ class FeatureFlagExtension(object):
     g.feature_flags = self
 
   def clear_handlers(self):
+    """ Clear all handlers. This effectively turns every feature off."""
     self.handlers = []
 
   def add_handler(self, function):
-    """ Add a function to the handler  """
+    """ Add a new handler to the end of the chain of handlers. """
     self.handlers.append(function)
 
   def remove_handler(self, function):
+    """ Remove a handler from the chain of handlers.  """
     try:
       self.handlers.remove(function)
-    except ValueError: # handler wasn't in the list, just ignore
+    except ValueError: # handler wasn't in the list, pretend we don't notice
       pass
 
   def check(self, feature):
     """ Loop through all our feature flag checkers and return true if any of them are true.
 
-    If you want to return False and stop the chain, raise the StopCheckingFeatureFlags exception."""
+    The order of handlers matters - we will immediately return True if any handler returns true.
+
+    If you want to a handler to return False and stop the chain, raise the StopCheckingFeatureFlags exception."""
     for handler in self.handlers:
       try:
         if handler(feature): return True
@@ -98,7 +92,7 @@ class FeatureFlagExtension(object):
 
 
 def is_active(feature):
-
+  """ Check if a feature is active """
   if hasattr(g, u'feature_flags') and isinstance(g.feature_flags, FeatureFlagExtension):
     return g.feature_flags.check(feature)
   else:
@@ -107,7 +101,7 @@ def is_active(feature):
 
 def is_active_feature(feature, redirect_to=None):
   """
-  Decorator which enables/disables views based on active features.
+  Decorator for Flask views. If a feature is off, it can either return a 404 or redirect to a URL if you'd rather.
   """
   def _is_active_feature(func):
     @wraps(func)
