@@ -9,9 +9,10 @@ You can also extend this to add your own functionality, for simple a/b testing o
 Installation
 ============
 
-Installing is simple with pip:
+Installing from source is easy. Download the source code, then run this:
 
-    $ pip install flask_featureflags
+    $ cd Flask-FeatureFlags
+    $ python setup.py install
 
 
 Setup
