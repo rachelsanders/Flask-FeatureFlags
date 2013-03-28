@@ -86,10 +86,10 @@ You can also check for features in template code:
     {% endif %}
 
 
-Customizing
-===========
+Customization
+=============
 
-If you want custom behavior, or to store your feature flags somewhere else, you can write your own feature flag handler.
+If you need custom behavior, you can write your own feature flag handler.
 
 A feature flag handler is simply a function that takes the feature name as input, and returns True (the feature is on) or False (the feature is off).
 
@@ -104,14 +104,13 @@ You can register the handler like so:
 
     from flask import Flask
     from flask_featureflags import FeatureFlagExtension
-    from myapp import is_it_tuesday
 
     app = Flask(__name__)
 
     feature_flags = FeatureFlagExtension(app)
     feature_flags.add_handler(is_it_tuesday)
 
-If you want to unregister a handler for any reason, you can do this:
+If you want to remove a handler for any reason, just do:
 
     feature_flags.remove_handler(is_it_tuesday)
 
@@ -121,3 +120,26 @@ To clear all handlers (thus effectively turning all features off):
 
     feature_flags.clear_handlers()
 
+
+Chaining multiple handlers
+--------------------------
+
+You can define multiple handlers. If any of them return true, the feature is considered on.
+
+For example, say you want features to be enabled on Tuesdays *or* Fridays:
+
+    feature_setup.add_handler(is_it_tuesday)
+    feature_setup.add_handler(is_it_friday)
+
+Important: the order of handlers matters!  The first handler to return True stops the chain. So given the above example,
+if it's Tuesday, ``is_it_tuesday`` will return True and ``is_it_friday`` will not run.
+
+You can override this behavior by raising the StopCheckingFeatureFlags exception in your custom handler.
+
+    def run_only_on_tuesdays(feature):
+      if date.today().weekday() == 2:
+        return True
+      else:
+        raise StopCheckingFeatureFlags
+
+If it isn't Tuesday, this will cause the chain to return False and any other handlers won't run.
