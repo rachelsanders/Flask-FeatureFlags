@@ -9,7 +9,7 @@ You can also extend this to add your own functionality, for simple a/b testing o
 Installation
 ============
 
-Installing is simple with pip::
+Installing is simple with pip:
 
     $ pip install flask_featureflags
 
@@ -17,7 +17,7 @@ Installing is simple with pip::
 Setup
 =====
 
-Setup is also simple::
+Setup is also simple:
 
     from flask import Flask
     from flask_featureflags import FeatureFlagExtension
@@ -28,7 +28,7 @@ Setup is also simple::
 
 In your Flask app.config, create a ``FEATURE_FLAG`` dictionary, and add any features you want as keys.
 
-For example, to have 'unfinished_feature' hidden in production but active in development::
+For example, to have 'unfinished_feature' hidden in production but active in development:
 
     class ProductionConfig(Config):
 
@@ -52,7 +52,7 @@ Usage
 Controllers/Views
 -----------------
 
-If you want to protect an entire view::
+If you want to protect an entire view:
 
     from flask import Flask
     import flask_featureflags as feature
@@ -77,7 +77,7 @@ If your needs are more complicated, you can check inside the view:
 Templates
 ---------
 
-You can also check for features in template code::
+You can also check for features in template code:
 
     {% if 'unfinished_feature' is active_feature %}
         new behavior here!
@@ -93,14 +93,14 @@ If you want custom behavior, or to store your feature flags somewhere else, you 
 
 A feature flag handler is simply a function that takes the feature name as input, and returns True (the feature is on) or False (the feature is off).
 
-For example, if you want to enable features only on Tuesdays::
+For example, if you want to enable features only on Tuesdays:
 
     from datetime import date
 
     def is_it_tuesday(feature):
       return date.today().weekday() == 2:
 
-You can register the handler like so::
+You can register the handler like so:
 
     from flask import Flask
     from flask_featureflags import FeatureFlagExtension
@@ -111,13 +111,13 @@ You can register the handler like so::
     feature_flags = FeatureFlagExtension(app)
     feature_flags.add_handler(is_it_tuesday)
 
-If you want to unregister a handler for any reason, you can do this::
+If you want to unregister a handler for any reason, you can do this:
 
-    switches.remove_handler(is_it_tuesday)
+    feature_flags.remove_handler(is_it_tuesday)
 
 If you try to remove a handler that was never added, the code will silently ignore you.
 
-To clear all handlers (thus effectively turning all features off)::
+To clear all handlers (thus effectively turning all features off):
 
-    switches.clear_handlers()
+    feature_flags.clear_handlers()
 

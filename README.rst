@@ -113,11 +113,11 @@ You can register the handler like so::
 
 If you want to unregister a handler for any reason, you can do this::
 
-    switches.remove_handler(is_it_tuesday)
+    feature_flags.remove_handler(is_it_tuesday)
 
 If you try to remove a handler that was never added, the code will silently ignore you.
 
 To clear all handlers (thus effectively turning all features off)::
 
-    switches.clear_handlers()
+    feature_flags.clear_handlers()
 
