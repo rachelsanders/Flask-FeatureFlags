@@ -27,7 +27,7 @@ Setup is also simple:
 
     feature_flags = FeatureFlagExtension(app)
 
-In your Flask app.config, create a ``FEATURE_FLAG`` dictionary, and add any features you want as keys.
+In your Flask app.config, create a ``FEATURE_FLAGS`` dictionary, and add any features you want as keys.
 
 For example, to have 'unfinished_feature' hidden in production but active in development:
 
@@ -111,6 +111,7 @@ You can register the handler like so:
     feature_flags = FeatureFlagExtension(app)
     feature_flags.add_handler(is_it_tuesday)
 
+
 If you want to remove a handler for any reason, just do:
 
     feature_flags.remove_handler(is_it_tuesday)
@@ -132,7 +133,7 @@ For example, say you want features to be enabled on Tuesdays *or* Fridays:
     feature_setup.add_handler(is_it_tuesday)
     feature_setup.add_handler(is_it_friday)
 
-Important: the order of handlers matters!  The first handler to return True stops the chain. So given the above example,
+**Important:** the order of handlers matters!  The first handler to return True stops the chain. So given the above example,
 if it's Tuesday, ``is_it_tuesday`` will return True and ``is_it_friday`` will not run.
 
 You can override this behavior by raising the StopCheckingFeatureFlags exception in your custom handler.
