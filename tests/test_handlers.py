@@ -1,8 +1,9 @@
+import unittest
+
 from flask import url_for
 from .fixtures import app, feature_setup, FEATURE_NAME, NullFlagHandler, AlwaysOnFlagHandler, AlwaysOffFlagHandler
 
-
-class TestAddRemoveHandlers():
+class TestAddRemoveHandlers(unittest.TestCase):
 
   def setUp(self):
     app.config['FEATURE_FLAGS'] = { FEATURE_NAME : True}
@@ -40,7 +41,7 @@ class TestAddRemoveHandlers():
 
     assert len(feature_setup.handlers) == 1
 
-class TestDefaultHandlers():
+class TestDefaultHandlers(unittest.TestCase):
 
   def setUp(self):
     app.config['FEATURE_FLAGS'] = { FEATURE_NAME : True}

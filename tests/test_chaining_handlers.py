@@ -1,7 +1,10 @@
+import unittest
+
 from flask import url_for
 from .fixtures import app, feature_setup, FEATURE_NAME, AlwaysOnFlagHandler, AlwaysOffFlagHandler
 
-class TestHandlerChaining():
+
+class TestHandlerChaining(unittest.TestCase):
 
   def setUp(self):
     app.config['FEATURE_FLAGS'] = { FEATURE_NAME : True}
@@ -59,3 +62,4 @@ class TestHandlerChaining():
       response = self.test_client.get(url)
       assert response.status_code == 404, u'Unexpected status code'
       assert 'OK' not in response.data
+

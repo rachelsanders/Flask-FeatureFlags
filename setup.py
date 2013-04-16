@@ -1,6 +1,6 @@
 import os
 from setuptools import setup
-
+from sys import argv
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -11,6 +11,11 @@ except:
   README = ''
   CHANGES = ''
 
+install_requires = ["Flask"]
+
+if "develop" in argv:
+  install_requires.append('Sphinx')
+  install_requires.append('Sphinx-PyPI-upload')
 
 setup(
   name='Flask-FeatureFlags',
@@ -24,11 +29,12 @@ setup(
   description='Enable or disable features in Flask apps based on configuration',
   long_description=README + '\n\n' + CHANGES,
   zip_safe=False,
+  test_suite="tests",
   platforms='any',
   include_package_data=True,
   packages=['flask_featureflags'],
   install_requires=[
-    'Flask>=0.8',
+    'Flask',
     ],
   classifiers=[
     'Development Status :: 3 - Alpha',

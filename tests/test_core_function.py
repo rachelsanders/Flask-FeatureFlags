@@ -1,9 +1,11 @@
+import unittest
+
 from flask import url_for
 from .fixtures import app, feature_setup, FEATURE_NAME
 
 import flask_featureflags as feature_flags
 
-class TestFeatureFlagCoreFunctionality():
+class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
   def setUp(self):
     app.config['FEATURE_FLAGS'] = { FEATURE_NAME : True}
