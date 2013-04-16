@@ -1,9 +1,9 @@
 This product includes the libraries:
-  Flask
+  * Flask
 
-Thanks to Armin Ronacher and contributors for making such a great framework!
+Thanks to Armin Ronacher and contributors for making such an awesome framework!
 
-(c) 2013 LinkedIn Corp.  All rights reserved.
+(c) 2013 Rachel Sanders.  All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

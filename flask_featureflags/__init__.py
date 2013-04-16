@@ -1,5 +1,5 @@
 """
-(c) 2013 LinkedIn Corp.  All rights reserved.
+(c) 2013 Rachel Sanders.  All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ def AppConfigFlagHandler(feature=None):
     log.info(u"No feature flag defined for {feature}".format(feature=feature))
     return False
 
-class FeatureFlagExtension(object):
+class FeatureFlag(object):
 
   def __init__(self, app):
     if app is not None:
@@ -108,7 +108,7 @@ class FeatureFlagExtension(object):
 
 def is_active(feature):
   """ Check if a feature is active """
-  if hasattr(g, u'feature_flags') and isinstance(g.feature_flags, FeatureFlagExtension):
+  if hasattr(g, u'feature_flags') and isinstance(g.feature_flags, FeatureFlag):
     return g.feature_flags.check(feature)
   else:
     log.warn(u'Got a request to check for {feature} but no handlers are configured. Check your setup. Returning False'.format(feature=feature))

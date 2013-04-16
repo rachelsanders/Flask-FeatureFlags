@@ -19,7 +19,7 @@ def AlwaysOnFlagHandler(feature):
 
 app = Flask(__name__)
 
-feature_setup = feature_flags.FeatureFlagExtension(app)
+feature_setup = feature_flags.FeatureFlag(app)
 
 @app.route("/null")
 def redirect_destination():

@@ -21,11 +21,11 @@ Setup
 Setup is also simple:
 
     from flask import Flask
-    from flask_featureflags import FeatureFlagExtension
+    from flask_featureflags import FeatureFlag
 
     app = Flask(__name__)
 
-    feature_flags = FeatureFlagExtension(app)
+    feature_flags = FeatureFlag(app)
 
 In your Flask app.config, create a ``FEATURE_FLAGS`` dictionary, and add any features you want as keys.
 
@@ -104,11 +104,11 @@ For example, if you want to enable features only on Tuesdays:
 You can register the handler like so:
 
     from flask import Flask
-    from flask_featureflags import FeatureFlagExtension
+    from flask_featureflags import FeatureFlag
 
     app = Flask(__name__)
 
-    feature_flags = FeatureFlagExtension(app)
+    feature_flags = FeatureFlag(app)
     feature_flags.add_handler(is_it_tuesday)
 
 
