@@ -21,7 +21,7 @@ setup(
   name='Flask-FeatureFlags',
   version='0.1',
   url='https://github.com/trustrachel/Flask-FeatureFlags',
-  license='Apache 2.0',
+  license='Apache',
   author='Rachel Sanders',
   author_email='rachel@trustrachel.com',
   maintainer='Rachel Sanders',
