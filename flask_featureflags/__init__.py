@@ -49,13 +49,13 @@ def AppConfigFlagHandler(feature=None):
 
    """
   if current_app is None:
-    log.warn(u"Got a request to check for {feature} but we're outside the request context. Returning False".format(feature=feature))
+    log.warn(u"Got a request to check for %s but we're outside the request context. Returning False" % feature)
     return False
 
   try:
     return current_app.config[u'FEATURE_FLAGS'][feature]
   except (AttributeError, KeyError):
-    log.info(u"No feature flag defined for {feature}".format(feature=feature))
+    log.info(u"No feature flag defined for %s" % feature)
     return False
 
 class FeatureFlag(object):
@@ -111,7 +111,7 @@ def is_active(feature):
   if hasattr(g, u'feature_flags') and isinstance(g.feature_flags, FeatureFlag):
     return g.feature_flags.check(feature)
   else:
-    log.warn(u'Got a request to check for {feature} but no handlers are configured. Check your setup. Returning False'.format(feature=feature))
+    log.warn(u'Got a request to check for %s but no handlers are configured. Check your setup. Returning False' % feature)
     return False
 
 def is_active_feature(feature, redirect_to=None):
@@ -124,10 +124,10 @@ def is_active_feature(feature, redirect_to=None):
 
       if not is_active(feature):
         if redirect_to:
-          log.debug(u'Feature {0} is off, redirecting to {1}'.format(feature, redirect_to))
+          log.debug(u'Feature %s is off, redirecting to %s' % (feature, redirect_to))
           return redirect(redirect_to, code=302)
         else:
-          log.debug(u'Feature {0} is off, aborting request'.format(feature))
+          log.debug(u'Feature %s is off, aborting request' % feature)
           abort(404)
 
       return func(*args, **kwargs)
