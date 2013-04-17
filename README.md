@@ -10,11 +10,7 @@ You can also extend it to do simple a/b testing or whitelisting.
 Installation
 ============
 
-If you have easy_install, simply run:
-
-    easy_install flask_featureflags
-
-Or if you prefer pip:
+Installation is easy with pip:
 
     pip install flask_featureflags
 
