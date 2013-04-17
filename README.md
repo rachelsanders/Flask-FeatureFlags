@@ -18,6 +18,11 @@ To install from source, download the source code, then run this:
 
     python setup.py install
 
+Docs
+====
+
+For the most complete and up-to-date documentation, please see: [https://flask_featureflags.readthedocs.org/en/latest/](https://flask_featureflags.readthedocs.org/en/latest/) 
+
 Setup
 =====
 
