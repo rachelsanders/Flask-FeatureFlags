@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+
 from flask import Flask, render_template_string
 import flask_featureflags as feature_flags
 
-FEATURE_NAME = u"test_feature"
+FEATURE_NAME = u"śőmé féátúŕé thíńg"
 
 FEATURE_IS_ON = 'OK'
 FEATURE_IS_OFF = "flag is off"
@@ -40,15 +42,15 @@ def redirect_with_decorator():
 
 @app.route("/view")
 def view_based_feature_flag():
-  if feature_flags.is_active("test_feature"):
+  if feature_flags.is_active(FEATURE_NAME):
     return FEATURE_IS_ON
   else:
     return FEATURE_IS_OFF
 
 @app.route("/template")
 def template_based_feature_flag():
-  template_string = """
-    {% if 'test_feature' is active_feature %}
+  template_string = u"""
+    {% if 'śőmé féátúŕé thíńg' is active_feature %}
       OK
     {% else %}
       flag is off
