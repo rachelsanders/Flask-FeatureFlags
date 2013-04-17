@@ -174,3 +174,8 @@ You can override this behavior by raising the StopCheckingFeatureFlags exception
 
 If it isn't Tuesday, this will cause the chain to return False and any other handlers won't run.
 
+
+Questions?
+==========
+
+Feel free to ping me on twitter `@trustrachel <https://twitter.com/trustrachel/>`_ or on the `Github <https://github.com/trustrachel/Flask-FeatureFlags/>`_ project page.
