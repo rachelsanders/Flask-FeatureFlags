@@ -102,7 +102,7 @@ If you need custom behavior, you can write your own feature flag handler.
 
 A feature flag handler is simply a function that takes the feature name as input, and returns True (the feature is on) or False (the feature is off).
 
-For example, if you want to enable features only on Tuesdays:
+For example, if you want to enable features on Tuesdays:
 
     from datetime import date
 
