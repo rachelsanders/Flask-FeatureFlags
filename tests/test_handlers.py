@@ -1,7 +1,7 @@
 import unittest
 
 from flask import url_for
-from .fixtures import app, feature_setup, FEATURE_NAME, NullFlagHandler, AlwaysOnFlagHandler, AlwaysOffFlagHandler
+from .fixtures import app, feature_setup, FEATURE_NAME, FEATURE_IS_ON, NullFlagHandler, AlwaysOnFlagHandler, AlwaysOffFlagHandler
 
 class TestAddRemoveHandlers(unittest.TestCase):
 
@@ -37,7 +37,7 @@ class TestAddRemoveHandlers(unittest.TestCase):
     feature_setup.clear_handlers()
     feature_setup.add_handler(NullFlagHandler)
 
-    feature_setup.remove_handler(lambda: True)
+    feature_setup.remove_handler(AlwaysOffFlagHandler)
 
     assert len(feature_setup.handlers) == 1
 
@@ -60,7 +60,7 @@ class TestDefaultHandlers(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 404, u'Unexpected status code'
-      assert 'OK' not in response.data
+      assert FEATURE_IS_ON not in response.data
 
   def test_always_false_handler_returns_false(self):
     feature_setup.clear_handlers()
@@ -72,7 +72,7 @@ class TestDefaultHandlers(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 404, u'Unexpected status code'
-      assert 'OK' not in response.data
+      assert FEATURE_IS_ON not in response.data
 
   def test_always_on_handler_returns_true(self):
     feature_setup.clear_handlers()
@@ -84,7 +84,7 @@ class TestDefaultHandlers(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code'
-      assert 'OK' in response.data
+      assert FEATURE_IS_ON in response.data
 
 
 
