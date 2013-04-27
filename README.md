@@ -1,6 +1,9 @@
 Flask FeatureFlags
 ===================
 
+[![Build Status](https://travis-ci.org/trustrachel/Flask-FeatureFlags.png)](https://travis-ci.org/trustrachel/Flask-FeatureFlags)
+
+
 This is a Flask extension that adds feature flagging to your applications. This lets you turn parts of your site on or off based on configuration.
 
 It's useful for any setup where you deploy from trunk but want to hide unfinished features from your users, such as continuous integration builds.
