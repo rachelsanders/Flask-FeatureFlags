@@ -173,6 +173,11 @@ You can override this behavior by raising the StopCheckingFeatureFlags exception
 
 If it isn't Tuesday, this will cause the chain to return False and any other handlers won't run.
 
+Acknowledgements
+================
+
+A big thank you to my coworkers at LinkedIn for feedback on this project, and for letting me open source it. You guys are awesome.
+
 Questions?
 ==========
 
