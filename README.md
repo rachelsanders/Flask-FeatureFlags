@@ -176,7 +176,7 @@ If it isn't Tuesday, this will cause the chain to return False and any other han
 Acknowledgements
 ================
 
-A big thank you to my coworkers at LinkedIn for feedback on this project, and for letting me open source it. You guys are awesome.
+A big thank you to LinkedIn for letting me opensource this, and for my coworkers for all their feedback on this project. You guys are great. :)
 
 Questions?
 ==========
