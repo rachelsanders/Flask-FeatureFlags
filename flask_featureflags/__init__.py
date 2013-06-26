@@ -139,3 +139,10 @@ def is_active_feature(feature, redirect_to=None):
       return func(*args, **kwargs)
     return wrapped
   return _is_active_feature
+
+# Silence that annoying No handlers could be found for logger "flask-featureflags"
+class NullHandler(logging.Handler):
+  def emit(self, record):
+    pass
+
+log.addHandler(NullHandler())
