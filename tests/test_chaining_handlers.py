@@ -24,7 +24,7 @@ class TestHandlerChaining(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 404, u'Unexpected status code'
-      assert FEATURE_IS_ON not in response.data
+      assert FEATURE_IS_ON not in response.data.decode(u'utf-8')
 
   def test_if_any_handler_returns_true_the_feature_flag_is_on(self):
 
@@ -37,7 +37,7 @@ class TestHandlerChaining(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code'
-      assert FEATURE_IS_ON in response.data
+      assert FEATURE_IS_ON in response.data.decode(u'utf-8')
 
   def test_the_first_handler_to_return_true_stops_the_chain(self):
 
@@ -50,7 +50,7 @@ class TestHandlerChaining(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code'
-      assert FEATURE_IS_ON in response.data
+      assert FEATURE_IS_ON in response.data.decode(u'utf-8')
 
   def test_raising_exception_stops_the_chain_and_returns_false(self):
 
@@ -63,7 +63,7 @@ class TestHandlerChaining(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 404, u'Unexpected status code'
-      assert FEATURE_IS_ON not in response.data
+      assert FEATURE_IS_ON not in response.data.decode(u'utf-8')
 
   def test_if_no_handler_returns_true_the_chain_returns_false(self):
 
@@ -76,5 +76,5 @@ class TestHandlerChaining(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 404, u'Unexpected status code'
-      assert FEATURE_IS_ON not in response.data
+      assert FEATURE_IS_ON not in response.data.decode(u'utf-8')
 

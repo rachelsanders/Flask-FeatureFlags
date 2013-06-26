@@ -21,7 +21,9 @@ To install from source, download the source code, then run this:
 
     python setup.py install
 
-Flask-FeatureFlags supports Python 2.5+ (but not Python 3 yet). Be aware that Flask dropped support for Python 2.5 in their 0.10 release and we will too in our next release.
+Flask-FeatureFlags supports Python 2.6, 2.7, and 3.3+.
+
+Version 0.1 of Flask-FeatureFlags supports Python 2.5 (but not Python 3), so use that version if you need it. Be aware that both Flask and Jinja have dropped support for Python 2.5.
 
 Docs
 ====

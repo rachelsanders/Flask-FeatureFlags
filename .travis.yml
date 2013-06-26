@@ -2,7 +2,19 @@ language: python
 python:
   - "2.7"
   - "2.6"
+  - "3.3"
+  - "pypy"
+
+env:
+  - FLASK=0.8
+  - FLASK=0.8.1
+  - FLASK=0.9
+  - FLASK=0.10.1
+
 # command to install dependencies
-install: pip install -r requirements.txt --use-mirrors
+install:
+  - pip install -q Flask==$FLASK --use-mirrors
+  - pip install nose --use-mirrors
+
 # command to run tests
 script:  nosetests tests

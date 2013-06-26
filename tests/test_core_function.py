@@ -32,7 +32,7 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code %s' % response.status_code
-      assert FEATURE_IS_ON in response.data
+      assert FEATURE_IS_ON in response.data.decode(u'utf-8')
 
   def test_decorator_returns_404_if_feature_is_off(self):
 
@@ -43,7 +43,7 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 404, u'Unexpected status code %s' % response.status_code
-      assert FEATURE_IS_ON not in response.data
+      assert FEATURE_IS_ON not in response.data.decode(u'utf-8')
 
   def test_decorator_redirects_to_url_if_redirect_is_set_and_feature_is_off(self):
       with self.app.test_request_context('/'):
@@ -63,7 +63,7 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code %s' % response.status_code
-      assert FEATURE_IS_ON in response.data
+      assert FEATURE_IS_ON in response.data.decode(u'utf-8')
 
   def test_view_based_feature_flag_returns_old_code_if_flag_is_off(self):
     with self.app.test_request_context('/'):
@@ -73,7 +73,7 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code %s' % response.status_code
-      assert FEATURE_IS_OFF in response.data
+      assert FEATURE_IS_OFF in response.data.decode(u'utf-8')
 
   def test_template_feature_flag_returns_new_code_when_flag_is_on(self):
     with self.app.test_request_context('/'):
@@ -83,7 +83,7 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code %s' % response.status_code
-      assert FEATURE_IS_ON in response.data
+      assert FEATURE_IS_ON in response.data.decode(u'utf-8')
 
   def test_template_feature_flag_returns_old_code_if_flag_is_off(self):
     with self.app.test_request_context('/'):
@@ -93,7 +93,7 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code %s' % response.status_code
-      assert FEATURE_IS_OFF in response.data
+      assert FEATURE_IS_OFF in response.data.decode(u'utf-8')
 
   def test_feature_is_off_if_flag_doesnt_exist(self):
     with self.app.test_request_context('/'):
@@ -103,7 +103,7 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code %s' % response.status_code
-      assert FEATURE_IS_OFF in response.data
+      assert FEATURE_IS_OFF in response.data.decode(u'utf-8')
 
   def test_raise_exception_if_flag_doesnt_exist_but_config_flag_is_set(self):
 
@@ -130,7 +130,7 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code %s' % response.status_code
-      assert FEATURE_IS_OFF in response.data
+      assert FEATURE_IS_OFF in response.data.decode(u'utf-8')
 
   def test_feature_is_off_if_config_section_doesnt_exist(self):
     with self.app.test_request_context('/'):
@@ -141,7 +141,7 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code %s' % response.status_code
-      assert FEATURE_IS_OFF in response.data
+      assert FEATURE_IS_OFF in response.data.decode(u'utf-8')
 
   def test_raise_exception_if_config_section_doesnt_exist_and_config_flag_is_set(self):
 
@@ -169,4 +169,4 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code %s' % response.status_code
-      assert FEATURE_IS_OFF in response.data
+      assert FEATURE_IS_OFF in response.data.decode(u'utf-8')

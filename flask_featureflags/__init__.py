@@ -52,16 +52,16 @@ def AppConfigFlagHandler(feature=None):
 
    """
   if current_app is None:
-    log.warn(u"Got a request to check for %s but we're outside the request context. Returning False" % feature)
+    log.warn(u"Got a request to check for {feature} but we're outside the request context. Returning False".format(feature=feature))
     return False
 
   try:
     return current_app.config[FEATURE_FLAGS_CONFIG][feature]
   except (AttributeError, KeyError):
     if current_app.debug and current_app.config.get(RAISE_ERROR_ON_MISSING_FEATURES, False):
-      raise KeyError(u"No feature flag defined for %s" % feature)
+      raise KeyError(u"No feature flag defined for {feature}".format(feature=feature))
     else:
-      log.info(u"No feature flag defined for %s" % feature)
+      log.info(u"No feature flag defined for {feature}".format(feature=feature))
       return False
 
 class FeatureFlag(object):
@@ -117,7 +117,7 @@ def is_active(feature):
   if hasattr(g, u'feature_flags') and isinstance(g.feature_flags, FeatureFlag):
     return g.feature_flags.check(feature)
   else:
-    log.warn(u'Got a request to check for %s but no handlers are configured. Check your setup. Returning False' % feature)
+    log.warn(u'Got a request to check for {feature} but no handlers are configured. Check your setup. Returning False'.format(feature=feature))
     return False
 
 def is_active_feature(feature, redirect_to=None):
@@ -130,10 +130,10 @@ def is_active_feature(feature, redirect_to=None):
 
       if not is_active(feature):
         if redirect_to:
-          log.debug(u'Feature %s is off, redirecting to %s' % (feature, redirect_to))
+          log.debug(u'Feature {feature} is off, redirecting to {url}'.format(feature=feature, url=redirect_to))
           return redirect(redirect_to, code=302)
         else:
-          log.debug(u'Feature %s is off, aborting request' % feature)
+          log.debug(u'Feature {feature} is off, aborting request'.format(feature=feature))
           abort(404)
 
       return func(*args, **kwargs)

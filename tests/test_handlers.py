@@ -62,7 +62,7 @@ class TestDefaultHandlers(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 404, u'Unexpected status code'
-      assert FEATURE_IS_ON not in response.data
+      assert FEATURE_IS_ON not in response.data.decode(u'utf-8')
 
   def test_always_false_handler_returns_false(self):
     feature_setup.clear_handlers()
@@ -74,7 +74,7 @@ class TestDefaultHandlers(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 404, u'Unexpected status code'
-      assert FEATURE_IS_ON not in response.data
+      assert FEATURE_IS_ON not in response.data.decode(u'utf-8')
 
   def test_always_on_handler_returns_true(self):
     feature_setup.clear_handlers()
@@ -86,7 +86,7 @@ class TestDefaultHandlers(unittest.TestCase):
 
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code'
-      assert FEATURE_IS_ON in response.data
+      assert FEATURE_IS_ON in response.data.decode(u'utf-8')
 
 
 
