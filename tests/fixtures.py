@@ -8,6 +8,9 @@ FEATURE_NAME = u"śőmé féátúŕé thíńg"
 FEATURE_IS_ON = 'OK'
 FEATURE_IS_OFF = "flag is off"
 
+FLAG_CONFIG = feature_flags.FEATURE_FLAGS_CONFIG
+RAISE_ERROR = feature_flags.RAISE_ERROR_ON_MISSING_FEATURES
+
 def NullFlagHandler(feature):
   """ This handler always returns False """
   return False

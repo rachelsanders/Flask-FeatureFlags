@@ -3,12 +3,12 @@ from __future__ import with_statement
 import unittest
 
 from flask import url_for
-from .fixtures import app, feature_setup, FEATURE_NAME, FEATURE_IS_ON, NullFlagHandler, AlwaysOnFlagHandler, AlwaysOffFlagHandler
+from .fixtures import app, feature_setup, FEATURE_NAME, FEATURE_IS_ON, NullFlagHandler, AlwaysOnFlagHandler, AlwaysOffFlagHandler, FLAG_CONFIG
 
 class TestAddRemoveHandlers(unittest.TestCase):
 
   def setUp(self):
-    app.config['FEATURE_FLAGS'] = { FEATURE_NAME : True}
+    app.config[FLAG_CONFIG] = { FEATURE_NAME : True}
     app.config['TESTING'] = True
     self.app = app
     self.test_client = app.test_client()
@@ -46,7 +46,7 @@ class TestAddRemoveHandlers(unittest.TestCase):
 class TestDefaultHandlers(unittest.TestCase):
 
   def setUp(self):
-    app.config['FEATURE_FLAGS'] = { FEATURE_NAME : True}
+    app.config[FLAG_CONFIG] = { FEATURE_NAME : True}
     app.config['TESTING'] = True
     self.app = app
     self.test_client = app.test_client()

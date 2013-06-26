@@ -59,6 +59,11 @@ For example, to have 'unfinished_feature' hidden in production but active in dev
 
 **Note**: If a feature flag is used in code but not defined in ``FEATURE_FLAGS``, it's assumed to be off. Beware of typos.
 
+If you want your app to throw an exception in dev when a feature flag is used in code but not defined, add this to your configuration:
+
+    RAISE_ERROR_ON_MISSING_FEATURES = True
+
+If ``app.debug=True``, this will throw a ``KeyError`` instead of silently ignoring the error.
 
 Usage
 =====

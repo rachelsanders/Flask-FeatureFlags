@@ -23,6 +23,9 @@ __version__ = u'0.1'
 
 log = logging.getLogger(u'flask-featureflags')
 
+RAISE_ERROR_ON_MISSING_FEATURES = u'RAISE_ERROR_ON_MISSING_FEATURES'
+FEATURE_FLAGS_CONFIG = u'FEATURE_FLAGS'
+
 class StopCheckingFeatureFlags(Exception):
   """ Raise this inside of a feature flag handler to immediately return False and stop any further handers from running """
   pass
@@ -53,10 +56,13 @@ def AppConfigFlagHandler(feature=None):
     return False
 
   try:
-    return current_app.config[u'FEATURE_FLAGS'][feature]
+    return current_app.config[FEATURE_FLAGS_CONFIG][feature]
   except (AttributeError, KeyError):
-    log.info(u"No feature flag defined for %s" % feature)
-    return False
+    if current_app.debug and current_app.config.get(RAISE_ERROR_ON_MISSING_FEATURES, False):
+      raise KeyError(u"No feature flag defined for %s" % feature)
+    else:
+      log.info(u"No feature flag defined for %s" % feature)
+      return False
 
 class FeatureFlag(object):
 

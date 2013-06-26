@@ -5,3 +5,9 @@ Changes
 --------------------
 
 Initial public offering.
+
+0.2 (June 27, 2013)
+-------------------
+
+Added ``RAISE_ERROR_ON_MISSING_FEATURES`` configuration to throw an error in dev if a feature flag is missing. 
+
