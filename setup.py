@@ -19,7 +19,7 @@ if "develop" in argv:
 
 setup(
   name='Flask-FeatureFlags',
-  version='0.2',
+  version='0.3',
   url='https://github.com/trustrachel/Flask-FeatureFlags',
   license='Apache',
   author='Rachel Sanders',
