@@ -75,6 +75,10 @@ class FeatureFlag(object):
 
   def init_app(self, app):
     """ Inject ourself into the request setup and add a jinja function test """
+
+    app.config.setdefault(FEATURE_FLAGS_CONFIG, {})
+    app.config.setdefault(RAISE_ERROR_ON_MISSING_FEATURES, False)
+
     app.before_request(self.process_request)
     app.jinja_env.tests[u'active_feature'] = self.check
 
