@@ -177,7 +177,7 @@ You can override this behavior by raising the StopCheckingFeatureFlags exception
 
     from flask_featureflags import StopCheckingFeatureFlags
 
-    def run_only_on_tuesdays(feature)
+    def run_only_on_tuesdays(feature):
       if date.today().weekday() == 2:
         return True
       else:
