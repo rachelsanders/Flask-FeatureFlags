@@ -28,7 +28,7 @@ Version 0.1 of Flask-FeatureFlags supports Python 2.5 (but not Python 3), so use
 Docs
 ====
 
-For the most complete and up-to-date documentation, please see: [https://flask_featureflags.readthedocs.org/en/latest/](https://flask_featureflags.readthedocs.org/en/latest/) 
+For the most complete and up-to-date documentation, please see: [https://flask-featureflags.readthedocs.org/en/latest/](https://flask-featureflags.readthedocs.org/en/latest/) 
 
 Setup
 =====
@@ -174,7 +174,7 @@ You can override this behavior by raising the StopCheckingFeatureFlags exception
 
     from flask_featureflags import StopCheckingFeatureFlags
 
-    def run_only_on_tuesdays(feature)
+    def run_only_on_tuesdays(feature):
       if date.today().weekday() == 2:
         return True
       else:
