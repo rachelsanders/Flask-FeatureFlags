@@ -81,7 +81,7 @@ class FeatureFlag(object):
     self.handlers = [AppConfigFlagHandler]
 
   def init_app(self, app):
-    """ Inject ourself into the request setup and add a jinja function test """
+    """ Add ourselves into the app config and setup, and add a jinja function test """
 
     app.config.setdefault(FEATURE_FLAGS_CONFIG, {})
     app.config.setdefault(RAISE_ERROR_ON_MISSING_FEATURES, False)
@@ -127,7 +127,12 @@ def is_active(feature):
   """ Check if a feature is active """
 
   if current_app:
-    return current_app.extensions.get(EXTENSION_NAME).check(feature)
+    feature_flagger = current_app.extensions.get(EXTENSION_NAME)
+    if feature_flagger:
+      return feature_flagger.check(feature)
+    else:
+      raise AssertionError("Oops. This application doesn't have the Flask-FeatureFlag extention installed.")
+
   else:
     log.warn(u"Got a request to check for {feature} but we're running outside the request context. Check your setup. Returning False".format(feature=feature))
     return False

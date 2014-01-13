@@ -184,6 +184,7 @@ class TestAppFactory(unittest.TestCase):
     feature_flagger.init_app(test_app)
 
     with test_app.test_request_context("/"):
-      # Test a couple cases to make sure we're actually exercising the same setup
+      # Test a couple basic cases to make sure we're actually exercising the code
+      # when we make these calls
       self.assertTrue(feature_flags.is_active(FEATURE_NAME))
       self.assertFalse(feature_flags.is_active("DOES_NOT_EXIST"))
