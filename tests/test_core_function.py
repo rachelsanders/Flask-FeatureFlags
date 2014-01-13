@@ -177,7 +177,7 @@ class TestAppFactory(unittest.TestCase):
 
   def test_deferred_initialization_works(self):
 
-    test_app = Flask("dummy_app")
+    test_app = Flask(__name__)
     test_app.config[FLAG_CONFIG] = {FEATURE_NAME: True}
 
     feature_flagger = feature_flags.FeatureFlag()
