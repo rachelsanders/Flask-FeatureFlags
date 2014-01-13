@@ -9,11 +9,10 @@ from .fixtures import app, feature_setup, FEATURE_NAME, AlwaysOnFlagHandler, Alw
 class TestHandlerChaining(unittest.TestCase):
 
   def setUp(self):
-    app.config[FLAG_CONFIG] = { FEATURE_NAME : True}
+    app.config[FLAG_CONFIG] = {FEATURE_NAME: True}
     app.config['TESTING'] = True
     self.app = app
     self.test_client = app.test_client()
-
 
   def test_feature_flags_are_off_if_no_handlers_set(self):
 
@@ -68,8 +67,8 @@ class TestHandlerChaining(unittest.TestCase):
   def test_if_no_handler_returns_true_the_chain_returns_false(self):
 
     feature_setup.clear_handlers()
-    feature_setup.add_handler(lambda feature: 1==2)
-    feature_setup.add_handler(lambda feature: 3>4)
+    feature_setup.add_handler(lambda feature: 1 == 2)
+    feature_setup.add_handler(lambda feature: 3 > 4)
 
     with self.app.test_request_context('/'):
       url = url_for('feature_decorator')
@@ -77,4 +76,3 @@ class TestHandlerChaining(unittest.TestCase):
       response = self.test_client.get(url)
       assert response.status_code == 404, u'Unexpected status code'
       assert FEATURE_IS_ON not in response.data.decode(u'utf-8')
-

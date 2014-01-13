@@ -5,10 +5,11 @@ import unittest
 from flask import url_for
 from .fixtures import app, feature_setup, FEATURE_NAME, FEATURE_IS_ON, NullFlagHandler, AlwaysOnFlagHandler, AlwaysOffFlagHandler, FLAG_CONFIG
 
+
 class TestAddRemoveHandlers(unittest.TestCase):
 
   def setUp(self):
-    app.config[FLAG_CONFIG] = { FEATURE_NAME : True}
+    app.config[FLAG_CONFIG] = {FEATURE_NAME: True}
     app.config['TESTING'] = True
     self.app = app
     self.test_client = app.test_client()
@@ -43,14 +44,14 @@ class TestAddRemoveHandlers(unittest.TestCase):
 
     assert len(feature_setup.handlers) == 1
 
+
 class TestDefaultHandlers(unittest.TestCase):
 
   def setUp(self):
-    app.config[FLAG_CONFIG] = { FEATURE_NAME : True}
+    app.config[FLAG_CONFIG] = {FEATURE_NAME: True}
     app.config['TESTING'] = True
     self.app = app
     self.test_client = app.test_client()
-
 
   def test_null_handler_returns_false(self):
     feature_setup.clear_handlers()
@@ -87,6 +88,3 @@ class TestDefaultHandlers(unittest.TestCase):
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code'
       assert FEATURE_IS_ON in response.data.decode(u'utf-8')
-
-
-

@@ -7,10 +7,11 @@ from .fixtures import app, feature_setup, FEATURE_NAME, FEATURE_IS_ON, FEATURE_I
 
 import flask_featureflags as feature_flags
 
+
 class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
   def setUp(self):
-    app.config[FLAG_CONFIG] = { FEATURE_NAME : True}
+    app.config[FLAG_CONFIG] = {FEATURE_NAME: True}
     app.config['TESTING'] = True
 
     if RAISE_ERROR in app.config:
@@ -53,7 +54,8 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
         response = self.test_client.get(url)
         assert response.status_code == 302, u'Unexpected status code %s' % response.status_code
-        assert response.location == url_for('redirect_destination', _external=True), u'Expected redirect to %s, got %s => ' % (url_for('redirect_destination'), response.location)
+        assert response.location == url_for('redirect_destination', _external=True), \
+            u'Expected redirect to %s, got %s => ' % (url_for('redirect_destination'), response.location)
 
   def test_view_based_feature_flag_returns_new_code_if_flag_is_on(self):
     with self.app.test_request_context('/'):
@@ -116,7 +118,7 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
     try:
       self.test_client.get(url)
-    except KeyError: # assertRaises no worky for some reason :/
+    except KeyError:  # assertRaises no worky for some reason :/
       pass
 
   def test_do_not_raise_exception_if_we_are_not_in_dev_but_feature_is_missing_and_config_flag_is_set(self):
@@ -154,9 +156,8 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
 
     try:
       self.test_client.get(url)
-    except KeyError: # assertRaises no worky for some reason :/
+    except KeyError:  # assertRaises no worky for some reason :/
       pass
-
 
   def test_do_not_raise_exception_if_we_are_not_in_dev_but_config_is_missing_and_config_flag_is_set(self):
     """If the config section doesn't exist, only raise an error if we're in dev, no matter what the config says """
@@ -177,12 +178,12 @@ class TestAppFactory(unittest.TestCase):
   def test_deferred_initialization_works(self):
 
     test_app = Flask("dummy_app")
-    test_app.config[FLAG_CONFIG] = { FEATURE_NAME : True}
+    test_app.config[FLAG_CONFIG] = {FEATURE_NAME: True}
 
     feature_flagger = feature_flags.FeatureFlag()
     feature_flagger.init_app(test_app)
 
     with test_app.test_request_context("/"):
-      # Test a couple cases to make sure we're actually exercising the same setup 
-      assert feature_flags.is_active(FEATURE_NAME) == True
-      assert feature_flags.is_active("DOES_NOT_EXIST") == False
+      # Test a couple cases to make sure we're actually exercising the same setup
+      self.assertTrue(feature_flags.is_active(FEATURE_NAME))
+      self.assertFalse(feature_flags.is_active("DOES_NOT_EXIST"))

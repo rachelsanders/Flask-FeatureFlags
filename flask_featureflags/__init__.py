@@ -17,9 +17,9 @@ See the License for the specific language governing permissions and
 from functools import wraps
 import logging
 
-from flask import abort, current_app, g, redirect
+from flask import abort, current_app, redirect
 
-__version__ = u'0.1'
+__version__ = u'0.4dev'
 
 log = logging.getLogger(u'flask-featureflags')
 
@@ -28,9 +28,11 @@ FEATURE_FLAGS_CONFIG = u'FEATURE_FLAGS'
 
 EXTENSION_NAME = "FeatureFlags"
 
+
 class StopCheckingFeatureFlags(Exception):
   """ Raise this inside of a feature flag handler to immediately return False and stop any further handers from running """
   pass
+
 
 def AppConfigFlagHandler(feature=None):
   """ This is the default handler. It checks for feature flags in the current app's configuration.
@@ -65,6 +67,7 @@ def AppConfigFlagHandler(feature=None):
     else:
       log.info(u"No feature flag defined for {feature}".format(feature=feature))
       return False
+
 
 class FeatureFlag(object):
 
@@ -101,7 +104,7 @@ class FeatureFlag(object):
     """ Remove a handler from the chain of handlers.  """
     try:
       self.handlers.remove(function)
-    except ValueError: # handler wasn't in the list, pretend we don't notice
+    except ValueError:  # handler wasn't in the list, pretend we don't notice
       pass
 
   def check(self, feature):
@@ -112,7 +115,7 @@ class FeatureFlag(object):
     If you want to a handler to return False and stop the chain, raise the StopCheckingFeatureFlags exception."""
     for handler in self.handlers:
       try:
-        if handler(feature): 
+        if handler(feature):
            return True
       except StopCheckingFeatureFlags:
         return False
@@ -128,6 +131,7 @@ def is_active(feature):
   else:
     log.warn(u"Got a request to check for {feature} but we're running outside the request context. Check your setup. Returning False".format(feature=feature))
     return False
+
 
 def is_active_feature(feature, redirect_to=None):
   """
@@ -149,9 +153,11 @@ def is_active_feature(feature, redirect_to=None):
     return wrapped
   return _is_active_feature
 
+
 # Silence that annoying No handlers could be found for logger "flask-featureflags"
 class NullHandler(logging.Handler):
   def emit(self, record):
     pass
+
 
 log.addHandler(NullHandler())
