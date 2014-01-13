@@ -2,7 +2,7 @@ from __future__ import with_statement
 
 import unittest
 
-from flask import url_for
+from flask import Flask, url_for
 from .fixtures import app, feature_setup, FEATURE_NAME, FEATURE_IS_ON, FEATURE_IS_OFF, FLAG_CONFIG, RAISE_ERROR
 
 import flask_featureflags as feature_flags
@@ -170,3 +170,19 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
       response = self.test_client.get(url)
       assert response.status_code == 200, u'Unexpected status code %s' % response.status_code
       assert FEATURE_IS_OFF in response.data.decode(u'utf-8')
+
+
+class TestAppFactory(unittest.TestCase):
+
+  def test_deferred_initialization_works(self):
+
+    test_app = Flask("dummy_app")
+    test_app.config[FLAG_CONFIG] = { FEATURE_NAME : True}
+
+    feature_flagger = feature_flags.FeatureFlag()
+    feature_flagger.init_app(test_app)
+
+    with test_app.test_request_context("/"):
+      # Test a couple cases to make sure we're actually exercising the same setup 
+      assert feature_flags.is_active(FEATURE_NAME) == True
+      assert feature_flags.is_active("DOES_NOT_EXIST") == False

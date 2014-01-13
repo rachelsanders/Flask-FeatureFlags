@@ -26,6 +26,8 @@ log = logging.getLogger(u'flask-featureflags')
 RAISE_ERROR_ON_MISSING_FEATURES = u'RAISE_ERROR_ON_MISSING_FEATURES'
 FEATURE_FLAGS_CONFIG = u'FEATURE_FLAGS'
 
+EXTENSION_NAME = "FeatureFlags"
+
 class StopCheckingFeatureFlags(Exception):
   """ Raise this inside of a feature flag handler to immediately return False and stop any further handers from running """
   pass
@@ -51,7 +53,7 @@ def AppConfigFlagHandler(feature=None):
     }
 
    """
-  if current_app is None:
+  if not current_app:
     log.warn(u"Got a request to check for {feature} but we're outside the request context. Returning False".format(feature=feature))
     return False
 
@@ -66,7 +68,9 @@ def AppConfigFlagHandler(feature=None):
 
 class FeatureFlag(object):
 
-  def __init__(self, app):
+  JINJA_TEST_NAME = u'active_feature'
+
+  def __init__(self, app=None):
     if app is not None:
       self.init_app(app)
 
@@ -79,12 +83,11 @@ class FeatureFlag(object):
     app.config.setdefault(FEATURE_FLAGS_CONFIG, {})
     app.config.setdefault(RAISE_ERROR_ON_MISSING_FEATURES, False)
 
-    app.before_request(self.process_request)
-    app.jinja_env.tests[u'active_feature'] = self.check
+    if not hasattr(app, 'extensions'):
+      app.extensions = {}
+    app.extensions[EXTENSION_NAME] = self
 
-  def process_request(self):
-    """ Load ourselves into the globals """
-    g.feature_flags = self
+    app.jinja_env.tests[self.JINJA_TEST_NAME] = self.check
 
   def clear_handlers(self):
     """ Clear all handlers. This effectively turns every feature off."""
@@ -109,7 +112,8 @@ class FeatureFlag(object):
     If you want to a handler to return False and stop the chain, raise the StopCheckingFeatureFlags exception."""
     for handler in self.handlers:
       try:
-        if handler(feature): return True
+        if handler(feature): 
+           return True
       except StopCheckingFeatureFlags:
         return False
     else:
@@ -118,10 +122,11 @@ class FeatureFlag(object):
 
 def is_active(feature):
   """ Check if a feature is active """
-  if hasattr(g, u'feature_flags') and isinstance(g.feature_flags, FeatureFlag):
-    return g.feature_flags.check(feature)
+
+  if current_app:
+    return current_app.extensions.get(EXTENSION_NAME).check(feature)
   else:
-    log.warn(u'Got a request to check for {feature} but no handlers are configured. Check your setup. Returning False'.format(feature=feature))
+    log.warn(u"Got a request to check for {feature} but we're running outside the request context. Check your setup. Returning False".format(feature=feature))
     return False
 
 def is_active_feature(feature, redirect_to=None):
