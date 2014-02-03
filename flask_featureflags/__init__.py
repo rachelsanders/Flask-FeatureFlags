@@ -86,7 +86,12 @@ class FeatureFlag(object):
     app.config.setdefault(FEATURE_FLAGS_CONFIG, {})
     app.config.setdefault(RAISE_ERROR_ON_MISSING_FEATURES, False)
 
-    app.add_template_test(self.check, name=self.JINJA_TEST_NAME)
+    if hasattr(app, "add_template_test"):
+      # flask 0.10 and higher has a proper hook
+      app.add_template_test(self.check, name=self.JINJA_TEST_NAME)
+    else:
+      app.jinja_env.tests[self.JINJA_TEST_NAME] = self.check
+
 
     if not hasattr(app, 'extensions'):
       app.extensions = {}
