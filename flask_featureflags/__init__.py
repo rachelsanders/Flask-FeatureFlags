@@ -86,11 +86,11 @@ class FeatureFlag(object):
     app.config.setdefault(FEATURE_FLAGS_CONFIG, {})
     app.config.setdefault(RAISE_ERROR_ON_MISSING_FEATURES, False)
 
+    app.add_template_test(self.check, name=self.JINJA_TEST_NAME)
+
     if not hasattr(app, 'extensions'):
       app.extensions = {}
     app.extensions[EXTENSION_NAME] = self
-
-    app.jinja_env.tests[self.JINJA_TEST_NAME] = self.check
 
   def clear_handlers(self):
     """ Clear all handlers. This effectively turns every feature off."""
