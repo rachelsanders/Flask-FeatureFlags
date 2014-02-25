@@ -38,6 +38,11 @@ def redirect_destination():
   return FEATURE_IS_ON
 
 
+@app.route(u"/null_url_for")
+def redirect_destination_url_for():
+  return FEATURE_IS_ON
+
+
 @app.route(u"/decorator")
 @feature_flags.is_active_feature(FEATURE_NAME)
 def feature_decorator():
@@ -47,6 +52,12 @@ def feature_decorator():
 @app.route(u"/redirect")
 @feature_flags.is_active_feature(FEATURE_NAME, redirect_to='/null')
 def redirect_with_decorator():
+  return FEATURE_IS_ON
+
+
+@app.route(u"/redirect_url_for")
+@feature_flags.is_active_feature(FEATURE_NAME, redirect_url_for='redirect_destination_url_for')
+def redirect_url_for_with_decorator():
   return FEATURE_IS_ON
 
 

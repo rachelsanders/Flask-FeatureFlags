@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 from functools import wraps
 import logging
 
-from flask import abort, current_app, redirect
+from flask import abort, current_app, redirect, url_for
 
 __version__ = u'0.4dev'
 
@@ -143,7 +143,7 @@ def is_active(feature):
     return False
 
 
-def is_active_feature(feature, redirect_to=None):
+def is_active_feature(feature, redirect_to=None, redirect_url_for=None):
   """
   Decorator for Flask views. If a feature is off, it can either return a 404 or redirect to a URL if you'd rather.
   """
@@ -152,9 +152,13 @@ def is_active_feature(feature, redirect_to=None):
     def wrapped(*args, **kwargs):
 
       if not is_active(feature):
-        if redirect_to:
-          log.debug(u'Feature {feature} is off, redirecting to {url}'.format(feature=feature, url=redirect_to))
-          return redirect(redirect_to, code=302)
+        url = redirect_to
+        if redirect_url_for:
+          url = url_for(redirect_url_for)
+
+        if url:
+          log.debug(u'Feature {feature} is off, redirecting to {url}'.format(feature=feature, url=url))
+          return redirect(url, code=302)
         else:
           log.debug(u'Feature {feature} is off, aborting request'.format(feature=feature))
           abort(404)
