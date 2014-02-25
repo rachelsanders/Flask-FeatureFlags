@@ -46,6 +46,17 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
       assert response.status_code == 404, u'Unexpected status code %s' % response.status_code
       assert FEATURE_IS_ON not in response.data.decode(u'utf-8')
 
+  def test_decorator_redirects_to_url_if_redirect_to_is_set_and_feature_is_off(self):
+      with self.app.test_request_context('/'):
+        url = url_for('redirect_to_with_decorator')
+
+        app.config[FLAG_CONFIG][FEATURE_NAME] = False
+
+        response = self.test_client.get(url)
+        assert response.status_code == 302, u'Unexpected status code %s' % response.status_code
+        assert response.location == url_for('redirect_destination', _external=True), \
+            u'Expected redirect to %s, got %s => ' % (url_for('redirect_destination'), response.location)
+
   def test_decorator_redirects_to_url_if_redirect_is_set_and_feature_is_off(self):
       with self.app.test_request_context('/'):
         url = url_for('redirect_with_decorator')
@@ -56,17 +67,6 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
         assert response.status_code == 302, u'Unexpected status code %s' % response.status_code
         assert response.location == url_for('redirect_destination', _external=True), \
             u'Expected redirect to %s, got %s => ' % (url_for('redirect_destination'), response.location)
-
-  def test_decorator_redirects_to_url_if_redirect_url_for_is_set_and_feature_is_off(self):
-      with self.app.test_request_context('/'):
-        url = url_for('redirect_url_for_with_decorator')
-
-        app.config[FLAG_CONFIG][FEATURE_NAME] = False
-
-        response = self.test_client.get(url)
-        assert response.status_code == 302, u'Unexpected status code %s' % response.status_code
-        assert response.location == url_for('redirect_destination_url_for', _external=True), \
-            u'Expected redirect to %s, got %s => ' % (url_for('redirect_destination_url_for'), response.location)
 
   def test_view_based_feature_flag_returns_new_code_if_flag_is_on(self):
     with self.app.test_request_context('/'):
