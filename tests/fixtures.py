@@ -44,8 +44,14 @@ def feature_decorator():
   return FEATURE_IS_ON
 
 
-@app.route(u"/redirect")
+@app.route(u"/redirect_to")
 @feature_flags.is_active_feature(FEATURE_NAME, redirect_to='/null')
+def redirect_to_with_decorator():
+  return FEATURE_IS_ON
+
+
+@app.route(u"/redirect")
+@feature_flags.is_active_feature(FEATURE_NAME, redirect='redirect_destination')
 def redirect_with_decorator():
   return FEATURE_IS_ON
 
