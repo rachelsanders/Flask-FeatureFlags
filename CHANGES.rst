@@ -18,3 +18,9 @@ Revved the version number so I could re-upload to PyPI. No real changes other th
 * Now testing with PyPy in Travis!
 * Added ``RAISE_ERROR_ON_MISSING_FEATURES`` configuration to throw an error in dev if a feature flag is missing.
 
+0.4 (April 8, 2014)
+-------------------
+
+* General code cleanup and optimization
+* Adding optional redirect to is_active_feature, thank you to michaelcontento 
+* Fixed syntax error in docs, thank you to iurisilvio
