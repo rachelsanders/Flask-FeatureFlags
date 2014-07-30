@@ -36,4 +36,5 @@ class TestBadlyConfiguredApplication(unittest.TestCase):
     test_app = Flask(__name__)
 
     with test_app.test_request_context("/"):
-      self.assertFalse(feature_flags.AppConfigFlagHandler("BOGUS_FEATURE_FLAG"))
+      self.assertRaises(feature_flags.NoFeatureFlagFound,
+                        feature_flags.AppConfigFlagHandler, "BOGUS_FEATURE_FLAG")
