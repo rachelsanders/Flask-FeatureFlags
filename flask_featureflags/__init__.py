@@ -35,6 +35,11 @@ class StopCheckingFeatureFlags(Exception):
   pass
 
 
+class NoFeatureFlagFound(Exception):
+  """ Raise this when the feature flag does not exist. """
+  pass
+
+
 def AppConfigFlagHandler(feature=None):
   """ This is the default handler. It checks for feature flags in the current app's configuration.
 
@@ -63,11 +68,7 @@ def AppConfigFlagHandler(feature=None):
   try:
     return current_app.config[FEATURE_FLAGS_CONFIG][feature]
   except (AttributeError, KeyError):
-    if current_app.debug and current_app.config.get(RAISE_ERROR_ON_MISSING_FEATURES, False):
-      raise KeyError(u"No feature flag defined for {feature}".format(feature=feature))
-    else:
-      log.info(u"No feature flag defined for {feature}".format(feature=feature))
-      return False
+    raise NoFeatureFlagFound()
 
 
 class FeatureFlag(object):
@@ -92,7 +93,6 @@ class FeatureFlag(object):
       app.add_template_test(self.check, name=self.JINJA_TEST_NAME)
     else:
       app.jinja_env.tests[self.JINJA_TEST_NAME] = self.check
-
 
     if not hasattr(app, 'extensions'):
       app.extensions = {}
@@ -119,14 +119,25 @@ class FeatureFlag(object):
     The order of handlers matters - we will immediately return True if any handler returns true.
 
     If you want to a handler to return False and stop the chain, raise the StopCheckingFeatureFlags exception."""
+    found = False
     for handler in self.handlers:
       try:
         if handler(feature):
            return True
       except StopCheckingFeatureFlags:
         return False
-    else:
-      return False
+      except NoFeatureFlagFound:
+        pass
+      else:
+        found = True
+
+    if not found:
+      if current_app.debug and current_app.config.get(RAISE_ERROR_ON_MISSING_FEATURES, False):
+        raise KeyError(u"No feature flag defined for {feature}".format(feature=feature))
+      else:
+        log.info(u"No feature flag defined for {feature}".format(feature=feature))
+
+    return False
 
 
 def is_active(feature):
