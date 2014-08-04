@@ -1,22 +1,26 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
 import flask_featureflags as feature_flags
 from flask_featureflags.contrib.sqlalchemy import SQLAlchemyFeatureFlags
 
+from tests.fixtures import app, feature_setup
 
-app = Flask(__name__)
 db = SQLAlchemy(app)
 SQLAlchemyHandler = SQLAlchemyFeatureFlags(db)
 
-feature_setup = feature_flags.FeatureFlag(app)
-feature_setup.handlers = [SQLAlchemyHandler]
-
 
 class SQLAlchemyFeatureFlagTest(unittest.TestCase):
+
+  @classmethod
+  def setupClass(cls):
+    feature_setup.handlers = [SQLAlchemyHandler]
+
+  @classmethod
+  def tearDownClass(cls):
+    feature_setup.clear_handlers()
 
   def setUp(self):
     self.app_ctx = app.app_context()
