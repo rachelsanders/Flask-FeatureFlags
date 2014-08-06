@@ -29,8 +29,8 @@ matrix:
 
 # command to install dependencies
 install:
-  - pip install -q Flask==$FLASK --use-mirrors
-  - pip install -r requirements-dev.txt --use-mirrors
+  - pip install -q Flask==$FLASK 
+  - pip install -r requirements-dev.txt 
 
 # command to run tests
 script:  nosetests tests
