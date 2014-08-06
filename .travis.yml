@@ -3,6 +3,7 @@ python:
   - "2.7"
   - "2.6"
   - "3.3"
+  - "3.4"
   - "pypy"
 
 env:
@@ -18,6 +19,12 @@ matrix:
    - python: "3.3"
      env: FLASK=0.8.1
    - python: "3.3"
+     env: FLASK=0.9
+   - python: "3.4"
+     env: FLASK=0.8
+   - python: "3.4"
+     env: FLASK=0.8.1
+   - python: "3.4"
      env: FLASK=0.9
 
 # command to install dependencies
