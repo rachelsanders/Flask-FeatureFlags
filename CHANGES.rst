@@ -24,3 +24,11 @@ Revved the version number so I could re-upload to PyPI. No real changes other th
 * General code cleanup and optimization
 * Adding optional redirect to is_active_feature, thank you to michaelcontento 
 * Fixed syntax error in docs, thank you to iurisilvio
+
+0.5 (August 7, 2014)
+-------------------
+
+Official support for contributed modules, thank you to iurisilvio! He contributed the first for
+SQLAlchemy, so you can store your flags in the database instead.
+
+Other contributions welcome.

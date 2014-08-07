@@ -106,7 +106,14 @@ You can also check for features in Jinja template code:
         old behavior...
     {% endif %}
 
+Using other backends
+====================
 
+Want to store your flags somewhere other than the config file? There are third-party contrib modules for other backends.
+
+Please see the documentation here: [https://flask-featureflags.readthedocs.org/en/latest/contrib.html](https://flask-featureflags.readthedocs.org/en/latest/contrib.html)
+
+Feel free to add your own - see CONTRIBUTING.rst for help.
 
 Customization
 =============
@@ -181,6 +188,7 @@ You can override this behavior by raising the StopCheckingFeatureFlags exception
         raise StopCheckingFeatureFlags
 
 If it isn't Tuesday, this will cause the chain to return False and any other handlers won't run.
+
 
 Acknowledgements
 ================

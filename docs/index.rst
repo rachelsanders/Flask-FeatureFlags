@@ -14,6 +14,7 @@ Links
 
 * `source <https://github.com/trustrachel/Flask-FeatureFlags/>`_
 * :doc:`changelog </changelog>`
+* :doc:`Contributed modules </contrib>`
 
 
 Installation
@@ -185,6 +186,10 @@ You can override this behavior by raising the StopCheckingFeatureFlags exception
 
 If it isn't Tuesday, this will cause the chain to return False and any other handlers won't run.
 
+Third-party modules
+-------------------
+
+Don't want to store your flags in the config file? There are :doc:`third-party contributed modules </contrib>` for other backends. Feel free to add your own, too.
 
 Questions?
 ==========

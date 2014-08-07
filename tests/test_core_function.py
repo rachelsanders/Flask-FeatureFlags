@@ -57,16 +57,15 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
         assert response.location == url_for('redirect_destination', _external=True), \
             u'Expected redirect to %s, got %s => ' % (url_for('redirect_destination'), response.location)
 
-  def test_decorator_redirects_to_url_if_redirect_is_set_and_feature_is_off(self):
+  def test_decorator_does_not_redirect_if_redirect_is_set_and_feature_is_on(self):
       with self.app.test_request_context('/'):
         url = url_for('redirect_with_decorator')
 
-        app.config[FLAG_CONFIG][FEATURE_NAME] = False
+        app.config[FLAG_CONFIG][FEATURE_NAME] = True
 
         response = self.test_client.get(url)
-        assert response.status_code == 302, u'Unexpected status code %s' % response.status_code
-        assert response.location == url_for('redirect_destination', _external=True), \
-            u'Expected redirect to %s, got %s => ' % (url_for('redirect_destination'), response.location)
+        assert response.status_code == 200, u'Unexpected status code %s' % response.status_code
+        assert response.location is None, u'We redirected to %s, but this was unexpected' % request.location
 
   def test_view_based_feature_flag_returns_new_code_if_flag_is_on(self):
     with self.app.test_request_context('/'):
@@ -131,6 +130,8 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
       self.test_client.get(url)
     except KeyError:  # assertRaises no worky for some reason :/
       pass
+    else:
+      raise AssertionError("We expected to throw a KeyError, but didn't.")
 
   def test_do_not_raise_exception_if_we_are_not_in_dev_but_feature_is_missing_and_config_flag_is_set(self):
     """If a feature doesn't exist, only raise an error if we're in dev, no matter what the config says """
