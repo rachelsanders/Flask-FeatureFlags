@@ -19,6 +19,7 @@ import logging
 
 from flask import abort, current_app, url_for
 from flask import redirect as _redirect
+from flask.signals import Namespace
 
 __version__ = u'0.4dev'
 
@@ -38,6 +39,10 @@ class StopCheckingFeatureFlags(Exception):
 class NoFeatureFlagFound(Exception):
   """ Raise this when the feature flag does not exist. """
   pass
+
+
+_ns = Namespace()
+missing_feature = _ns.signal('missing-feature')
 
 
 def AppConfigFlagHandler(feature=None):
@@ -132,10 +137,12 @@ class FeatureFlag(object):
         found = True
 
     if not found:
+      message = u"No feature flag defined for {feature}".format(feature=feature)
       if current_app.debug and current_app.config.get(RAISE_ERROR_ON_MISSING_FEATURES, False):
-        raise KeyError(u"No feature flag defined for {feature}".format(feature=feature))
+        raise KeyError(message)
       else:
-        log.info(u"No feature flag defined for {feature}".format(feature=feature))
+        log.info(message)
+        missing_feature.send(self, feature=feature)
 
     return False
 
