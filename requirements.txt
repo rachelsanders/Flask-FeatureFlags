@@ -1,1 +1,2 @@
 Flask>=0.8
+blinker>=1.3
