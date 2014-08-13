@@ -25,6 +25,7 @@ matrix:
 # command to install dependencies
 install:
   - pip install -q Flask==$FLASK 
+  - pip install -r requirements.txt
   - pip install -r requirements-contrib.txt
 
 # command to run tests

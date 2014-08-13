@@ -184,6 +184,18 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
       assert response.status_code == 200, u'Unexpected status code %s' % response.status_code
       assert FEATURE_IS_OFF in response.data.decode(u'utf-8')
 
+  def test_signal_when_feature_is_missing(self):
+    expected_feature = 'newfeature'
+
+    @feature_flags.missing_feature.connect
+    def signal_handler(obj, feature):
+      app.config[FLAG_CONFIG][feature] = True
+      assert feature == expected_feature, u'Signal received wrong feature %s' % feature
+
+    with self.app.test_request_context('/'):
+      feature_flags.is_active(expected_feature)
+      assert app.config[FLAG_CONFIG][expected_feature], u'Missing feature handler was not called'
+
 
 class TestAppFactory(unittest.TestCase):
 
