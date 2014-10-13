@@ -32,3 +32,12 @@ Official support for contributed modules, thank you to iurisilvio! He contribute
 SQLAlchemy, so you can store your flags in the database instead.
 
 Other contributions welcome.
+
+
+0.5.1 (October 13, 2014)
+----------------------
+
+Adding the ability to have feature flags inline instead of in a dictionary, to make it easier to interoperate with other Flask extensions, e.g. Flask-AppConfig.
+
+A big thank you to Isman Firmansyah (@iromli) for the contribution!
+
