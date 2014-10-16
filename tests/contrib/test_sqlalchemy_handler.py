@@ -15,7 +15,7 @@ SQLAlchemyHandler = SQLAlchemyFeatureFlags(db)
 class SQLAlchemyFeatureFlagTest(unittest.TestCase):
 
   @classmethod
-  def setupClass(cls):
+  def setUpClass(cls):
     feature_setup.add_handler(SQLAlchemyHandler)
 
   @classmethod
