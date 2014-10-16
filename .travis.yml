@@ -27,6 +27,10 @@ install:
   - pip install -q Flask==$FLASK 
   - pip install -r requirements.txt
   - pip install -r requirements-contrib.txt
+  - pip install python-coveralls
 
 # command to run tests
-script:  nosetests tests
+script:  py.test --cov flask_featureflags tests --cov-report term-missing
+
+after_success:
+  - coveralls
