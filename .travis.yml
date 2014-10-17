@@ -31,7 +31,10 @@ install:
   - pip install python-coveralls
 
 # command to run tests
-script:  py.test --cov flask_featureflags tests --cov-report term-missing
+script:
+  # pytest coverage bombs on pypy ¯\_(ツ)_/¯
+  - if [[ $TRAVIS_PYTHON_VERSION == 'pypy' ]]; then py.test tests; fi
+  - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then py.test --cov flask_featureflags --cov-report term-missing tests; fi
 
 after_success:
   - coveralls
