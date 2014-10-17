@@ -1,7 +1,7 @@
 Flask FeatureFlags
 ===================
 
-[![Build Status](https://travis-ci.org/trustrachel/Flask-FeatureFlags.png)](https://travis-ci.org/trustrachel/Flask-FeatureFlags) [![Coverage Status](https://coveralls.io/repos/trustrachel/Flask-FeatureFlags/badge.png?branch=pytest)](https://coveralls.io/r/trustrachel/Flask-FeatureFlags?branch=pytest)
+[![Build Status](https://travis-ci.org/trustrachel/Flask-FeatureFlags.png)](https://travis-ci.org/trustrachel/Flask-FeatureFlags) [![Coverage Status](https://coveralls.io/repos/trustrachel/Flask-FeatureFlags/badge.png?branch=master)](https://coveralls.io/r/trustrachel/Flask-FeatureFlags?branch=master)
 
 This is a Flask extension that adds feature flagging to your applications. This lets you turn parts of your site on or off based on configuration.
 
