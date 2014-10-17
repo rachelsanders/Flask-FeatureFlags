@@ -57,6 +57,17 @@ class TestFeatureFlagCoreFunctionality(unittest.TestCase):
         assert response.location == url_for('redirect_destination', _external=True), \
             u'Expected redirect to %s, got %s => ' % (url_for('redirect_destination'), response.location)
 
+  def test_decorator_redirects_to_named_url_if_redirect_is_set_and_feature_is_off(self):
+      with self.app.test_request_context('/'):
+        url = url_for('redirect_with_decorator')
+
+        app.config[FLAG_CONFIG][FEATURE_NAME] = False
+
+        response = self.test_client.get(url)
+        assert response.status_code == 302, u'Unexpected status code %s' % response.status_code
+        assert response.location == url_for('redirect_destination', _external=True), \
+            u'Expected redirect to %s, got %s => ' % (url_for('redirect_destination'), response.location)
+
   def test_decorator_does_not_redirect_if_redirect_is_set_and_feature_is_on(self):
       with self.app.test_request_context('/'):
         url = url_for('redirect_with_decorator')
