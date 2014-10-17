@@ -4,7 +4,6 @@ python:
   - "2.6"
   - "3.3"
   - "3.4"
-  - "pypy"
 
 env:
   - FLASK=0.8.1
@@ -32,9 +31,7 @@ install:
 
 # command to run tests
 script:
-  # pytest coverage bombs on pypy idk
-  - if [[ $TRAVIS_PYTHON_VERSION == 'pypy' ]]; then py.test tests; fi
-  - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then py.test --cov flask_featureflags --cov-report term-missing tests; fi
+  - py.test --cov flask_featureflags --cov-report term-missing tests
 
 after_success:
   - coveralls
