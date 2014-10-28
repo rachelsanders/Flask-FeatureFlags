@@ -29,7 +29,7 @@ Running the tests
 
 Make sure you have the development libraries installed, then run::
 
-    nosetests
+    py.test tests
 
 Building documentation
 ``````````````````````
