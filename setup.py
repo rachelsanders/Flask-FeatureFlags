@@ -32,7 +32,12 @@ setup(
   test_suite="tests",
   platforms='any',
   include_package_data=True,
-  packages=['flask_featureflags'],
+  packages=[
+    'flask_featureflags',
+    'flask_featureflags.contrib',
+    'flask_featureflags.contrib.inline',
+    'flask_featureflags.contrib.sqlalchemy',
+  ],
   install_requires=[
     'Flask',
     ],
