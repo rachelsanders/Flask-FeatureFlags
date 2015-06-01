@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 from sys import argv
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -32,7 +32,7 @@ setup(
   test_suite="tests",
   platforms='any',
   include_package_data=True,
-  packages=['flask_featureflags'],
+  packages=find_packages(),
   install_requires=[
     'Flask',
     ],
