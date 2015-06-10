@@ -41,3 +41,10 @@ Adding the ability to have feature flags inline instead of in a dictionary, to m
 
 A big thank you to Isman Firmansyah (@iromli) for the contribution!
 
+
+0.6 (June 9, 2015)
+------------------
+
+Adding contrib modules to setup.py. Thank you @iromli and @pcraig3!
+
+
