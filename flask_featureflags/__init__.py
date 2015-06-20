@@ -21,7 +21,7 @@ from flask import abort, current_app, url_for
 from flask import redirect as _redirect
 from flask.signals import Namespace
 
-__version__ = u'0.4dev'
+__version__ = '0.7-dev'
 
 log = logging.getLogger(u'flask-featureflags')
 
