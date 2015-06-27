@@ -2,6 +2,7 @@ import codecs
 import os
 import re
 from setuptools import setup
+from setuptools import find_packages
 from sys import argv
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -46,12 +47,7 @@ setup(
   test_suite="tests",
   platforms='any',
   include_package_data=True,
-  packages=[
-    'flask_featureflags',
-    'flask_featureflags.contrib',
-    'flask_featureflags.contrib.inline',
-    'flask_featureflags.contrib.sqlalchemy',
-  ],
+  packages=find_packages(exclude=["tests*"]),
   install_requires=[
     'Flask',
     ],
