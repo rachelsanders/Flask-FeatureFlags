@@ -77,6 +77,7 @@ If you want to protect an entire view:
     from flask import Flask
     import flask_featureflags as feature
 
+    @app.route('/new/url')
     @feature.is_active_feature('unfinished_feature', redirect_to='/old/url')
     def index():
       # unfinished view code here
