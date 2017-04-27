@@ -51,6 +51,7 @@ setup(
     'flask_featureflags.contrib',
     'flask_featureflags.contrib.inline',
     'flask_featureflags.contrib.sqlalchemy',
+    'flask_featureflags.contrib.redis',
   ],
   install_requires=[
     'Flask',
