@@ -1,1 +1,2 @@
 Flask-SQLAlchemy>=0.16
+Flask-Redis>=0.3.0

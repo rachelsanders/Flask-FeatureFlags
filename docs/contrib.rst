@@ -82,3 +82,40 @@ A typical usage is as trivial as the following snippet:
     @feature_flags.is_active_feature("FINISHED", redirect_to="/")
     def new():
         return "New feature"
+
+
+Redis
+-----
+
+You'll need to have the `Flask-Redis` to be installed::
+
+    pip install flask_redis
+
+
+Then, in your app, add the ``RedisFeatureFlags`` handler::
+
+    from flask import Flask
+    from flask_redis import FlaskRedis
+    from flask_featureflags.contrib.redis import RedisFeatureFlags
+    from flask_featureflags import FeatureFlag, is_active_feature
+
+
+    app = Flask(__name__)
+    app.config['REDIS_URL'] = 'localhost:6379'
+    redis = FlaskRedis(app)
+    features = FeatureFlag(app)
+    features.add_handler(RedisFeatureFlags(redis))
+
+
+    @app.route('/features/<feature>')
+    def test_feature(feature):
+        if features.check(feature):
+            return '%s: active' % (feature)
+        else:
+            return '%s: inactive' % (feature)
+
+
+    @app.route('/my_feature')
+    @feature_flags.is_active_feature("my_feature")
+    def handler():
+        return 'ACTIVE'
