@@ -1,7 +1,7 @@
 from flask import current_app
-from flask.ext.featureflags import FEATURE_FLAGS_CONFIG
-from flask.ext.featureflags import NoFeatureFlagFound
-from flask.ext.featureflags import log
+from flask_featureflags import FEATURE_FLAGS_CONFIG
+from flask_featureflags import NoFeatureFlagFound
+from flask_featureflags import log
 
 
 class InlineFeatureFlag(object):
