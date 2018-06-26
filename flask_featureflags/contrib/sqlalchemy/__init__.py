@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, Boolean, String
 from sqlalchemy.orm.exc import NoResultFound
 from flask import current_app
-from flask.ext.featureflags import NoFeatureFlagFound, log
+from flask_featureflags import NoFeatureFlagFound, log
 
 
 class SQLAlchemyFeatureFlags(object):
